@@ -20,8 +20,6 @@ a comedy from your personal Watchlist or a light book from your Booklist.
 ## Tech Stack
 - **Frontend**: Angular 17 (standalone components, signals, routing, HttpClient, FormsModule)
 - **Backend**: Django + Django REST Framework
-- **Auth**: JWT via SimpleJWT
-- **Database**: PostgreSQL (or SQLite for dev)
 
 ## Team
 - Razuan Togzhan, 24B031966
