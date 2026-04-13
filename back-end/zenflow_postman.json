@@ -1,8 +1,8 @@
 {
   "info": {
-    "_postman_id": "00000000-0000-0000-0000-000000000000",
+    "_postman_id": "00000000-0000-0000-0000-000000000001",
     "name": "ZenFlow API",
-    "description": "Postman Collection for ZenFlow API tests.",
+    "description": "Postman Collection for ZenFlow API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -10,107 +10,104 @@
       "name": "Auth",
       "item": [
         {
-          "name": "1. POST /api/auth/login/",
+          "name": "Register",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"testpass123\"\n}"
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@test.com\",\n  \"password\": \"pass123\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8000/api/auth/login/",
+              "raw": "http://localhost:8000/auth/register/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "auth", "login", ""]
+              "path": ["auth", "register", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"testpass123\"\n}"
-                },
-                "url": {
-                  "raw": "http://localhost:8000/api/auth/login/",
-                  "protocol": "http",
-                  "host": ["localhost"],
-                  "port": "8000",
-                  "path": ["api", "auth", "login", ""]
-                }
-              },
-              "status": "OK",
-              "code": 200,
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
               "body": "{\n  \"access\": \"<jwt_access_token>\",\n  \"refresh\": \"<jwt_refresh_token>\"\n}"
             },
             {
-              "name": "Example Error",
+              "name": "400 Bad Request",
               "status": "Bad Request",
               "code": 400,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
-              "body": "{\n  \"non_field_errors\": [\n    \"Invalid credentials\"\n  ]\n}"
+              "body": "{\n  \"username\": [\"A user with that username already exists.\"]\n}"
             }
           ]
         },
         {
-          "name": "2. POST /api/auth/logout/",
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"pass123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/auth/login/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["auth", "login", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "cookie": [],
+              "body": "{\n  \"access\": \"<jwt_access_token>\",\n  \"refresh\": \"<jwt_refresh_token>\"\n}"
+            },
+            {
+              "name": "400 Bad Request",
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "cookie": [],
+              "body": "{\n  \"non_field_errors\": [\"Invalid credentials\"]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Logout",
           "request": {
             "method": "POST",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer <access_token>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer <access_token>" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"refresh_token\": \"<jwt_refresh_token>\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8000/api/auth/logout/",
+              "raw": "http://localhost:8000/auth/logout/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "auth", "logout", ""]
+              "path": ["auth", "logout", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "205 Reset Content",
               "status": "Reset Content",
               "code": 205,
               "_postman_previewlanguage": "text",
@@ -119,31 +116,21 @@
               "body": ""
             },
             {
-              "name": "Example Error",
+              "name": "400 Bad Request",
               "status": "Bad Request",
               "code": 400,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
               "body": "{\n  \"detail\": \"Token is invalid or expired\"\n}"
             }
           ]
         },
         {
-          "name": "9. POST /api/token/refresh/",
+          "name": "Refresh Token",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"refresh\": \"<jwt_refresh_token>\"\n}"
@@ -158,16 +145,11 @@
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "200 OK",
               "status": "OK",
               "code": 200,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
               "body": "{\n  \"access\": \"<new_jwt_access_token>\"\n}"
             }
@@ -179,225 +161,185 @@
       "name": "Tasks",
       "item": [
         {
-          "name": "3. GET /api/tasks/",
+          "name": "List Tasks",
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer <access_token>"
-              }
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer <access_token>" }],
             "url": {
-              "raw": "http://localhost:8000/api/tasks/",
+              "raw": "http://localhost:8000/tasks/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "tasks", ""]
+              "path": ["tasks", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "200 OK",
               "status": "OK",
               "code": 200,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
-              "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Finish Django models\",\n    \"quadrant\": \"UI\",\n    \"is_done\": false,\n    \"created_at\": \"2026-04-04T09:00:00Z\"\n  }\n]"
+              "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Finish Django models\",\n    \"quadrant\": \"UI\",\n    \"is_done\": false,\n    \"created_at\": \"2026-04-13T09:00:00Z\"\n  }\n]"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"Authentication credentials were not provided.\"\n}"
             }
           ]
         },
         {
-          "name": "4. POST /api/tasks/",
+          "name": "Create Task",
           "request": {
             "method": "POST",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer <access_token>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer <access_token>" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"UI\",\n  \"is_done\": false\n}"
+              "raw": "{\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"UI\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8000/api/tasks/",
+              "raw": "http://localhost:8000/tasks/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "tasks", ""]
+              "path": ["tasks", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "201 Created",
               "status": "Created",
               "code": 201,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
-              "body": "{\n  \"id\": 2,\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"UI\",\n  \"is_done\": false,\n  \"created_at\": \"2026-04-04T10:00:00Z\"\n}"
+              "body": "{\n  \"id\": 1,\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"UI\",\n  \"is_done\": false,\n  \"created_at\": \"2026-04-13T10:00:00Z\"\n}"
             }
           ]
         },
         {
-          "name": "5. GET /api/tasks/1/",
+          "name": "Get Task",
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer <access_token>"
-              }
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer <access_token>" }],
             "url": {
-              "raw": "http://localhost:8000/api/tasks/1/",
+              "raw": "http://localhost:8000/tasks/1/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "tasks", "1", ""]
+              "path": ["tasks", "1", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "200 OK",
               "status": "OK",
               "code": 200,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
-              "body": "{\n  \"id\": 1,\n  \"title\": \"Finish Django models\",\n  \"quadrant\": \"UI\",\n  \"is_done\": false,\n  \"created_at\": \"2026-04-04T09:00:00Z\"\n}"
+              "body": "{\n  \"id\": 1,\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"UI\",\n  \"is_done\": false,\n  \"created_at\": \"2026-04-13T10:00:00Z\"\n}"
+            },
+            {
+              "name": "403 Forbidden",
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "cookie": [],
+              "body": "{\n  \"detail\": \"You do not have permission to perform this action.\"\n}"
             }
           ]
         },
         {
-          "name": "6. PUT /api/tasks/1/",
+          "name": "Update Task (PUT)",
           "request": {
             "method": "PUT",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer <access_token>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer <access_token>" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Finish Django models\",\n  \"quadrant\": \"UI\",\n  \"is_done\": true\n}"
+              "raw": "{\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"NUI\",\n  \"is_done\": true\n}"
             },
             "url": {
-              "raw": "http://localhost:8000/api/tasks/1/",
+              "raw": "http://localhost:8000/tasks/1/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "tasks", "1", ""]
+              "path": ["tasks", "1", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "200 OK",
               "status": "OK",
               "code": 200,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
-              "body": "{\n  \"id\": 1,\n  \"title\": \"Finish Django models\",\n  \"quadrant\": \"UI\",\n  \"is_done\": true,\n  \"created_at\": \"2026-04-04T09:00:00Z\"\n}"
+              "body": "{\n  \"id\": 1,\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"NUI\",\n  \"is_done\": true,\n  \"created_at\": \"2026-04-13T10:00:00Z\"\n}"
             }
           ]
         },
         {
-          "name": "7. PATCH /api/tasks/1/",
+          "name": "Partial Update Task (PATCH)",
           "request": {
             "method": "PATCH",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer <access_token>"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer <access_token>" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"is_done\": true\n}"
             },
             "url": {
-              "raw": "http://localhost:8000/api/tasks/1/",
+              "raw": "http://localhost:8000/tasks/1/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "tasks", "1", ""]
+              "path": ["tasks", "1", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "200 OK",
               "status": "OK",
               "code": 200,
               "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
               "cookie": [],
-              "body": "{\n  \"id\": 1,\n  \"title\": \"Finish Django models\",\n  \"quadrant\": \"UI\",\n  \"is_done\": true,\n  \"created_at\": \"2026-04-04T09:00:00Z\"\n}"
+              "body": "{\n  \"id\": 1,\n  \"title\": \"Write serializers\",\n  \"quadrant\": \"UI\",\n  \"is_done\": true,\n  \"created_at\": \"2026-04-13T10:00:00Z\"\n}"
             }
           ]
         },
         {
-          "name": "8. DELETE /api/tasks/1/",
+          "name": "Delete Task",
           "request": {
             "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer <access_token>"
-              }
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer <access_token>" }],
             "url": {
-              "raw": "http://localhost:8000/api/tasks/1/",
+              "raw": "http://localhost:8000/tasks/1/",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8000",
-              "path": ["api", "tasks", "1", ""]
+              "path": ["tasks", "1", ""]
             }
           },
           "response": [
             {
-              "name": "Example Success",
+              "name": "204 No Content",
               "status": "No Content",
               "code": 204,
               "_postman_previewlanguage": "text",
@@ -410,8 +352,8 @@
       ]
     },
     {
-      "name": "Person 2 (Append remaining endpoints here)",
-      "description": "Person 2, please append endpoints for films, books, check-ins, and recommendations here.",
+      "name": "Person 2 - Films, Books, CheckIns, Recommendations",
+      "description": "Person 2 adds their endpoints here.",
       "item": []
     }
   ]
