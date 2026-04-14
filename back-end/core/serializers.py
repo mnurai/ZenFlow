@@ -61,8 +61,24 @@ class FilmSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'genre', 'status', 'rating', 'added_at']
         read_only_fields = ['added_at']
 
+    def validate_rating(self, value):
+        if value is not None and not (1 <= value <= 5):
+            raise serializers.ValidationError("Rating must be between 1 and 5.")
+        return value
+
+    def validate_title(self, value):
+        if len(value.strip()) < 1:
+            raise serializers.ValidationError("Title cannot be empty.")
+        return value
+
+
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'mood_tag', 'status', 'added_at']
         read_only_fields = ['added_at']
+
+    def validate_title(self, value):
+        if len(value.strip()) < 1:
+            raise serializers.ValidationError("Title cannot be empty.")
+        return value
