@@ -6,8 +6,8 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
-from .models import Task
-from .serializers import RegisterSerializer, LoginSerializer, TaskSerializer
+from .models import Task, Film, Book, DailyCheckIn
+from .serializers import RegisterSerializer, LoginSerializer, TaskSerializer, FilmSerializer, BookSerializer, CheckInSerializer
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -95,3 +95,182 @@ class TaskDetailView(APIView):
         task = self.get_object(pk, request.user)
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FilmListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        films = Film.objects.filter(user=request.user)
+        serializer = FilmSerializer(films, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = FilmSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def film_detail_view(request, pk):
+    try:
+        film = Film.objects.get(pk=pk)
+    except Film.DoesNotExist:
+        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    if film.user != request.user:
+        return Response({'detail': 'Forbidden.'}, status=status.HTTP_403_FORBIDDEN)
+
+    if request.method == 'PATCH':
+        serializer = FilmSerializer(film, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    film.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class BookListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        books = Book.objects.filter(user=request.user)
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def book_detail_view(request, pk):
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+    if book.user != request.user:
+        return Response({'detail': 'Forbidden.'}, status=status.HTTP_403_FORBIDDEN)
+
+    if request.method == 'PATCH':
+        serializer = BookSerializer(book, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    book.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def checkin_view(request):
+    if request.method == 'POST':
+        serializer = CheckInSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    checkins = DailyCheckIn.objects.filter(user=request.user).order_by('-date')
+    serializer = CheckInSerializer(checkins, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def checkin_latest_view(request):
+    checkin = DailyCheckIn.objects.filter(user=request.user).order_by('-date').first()
+    if checkin is None:
+        return Response({'detail': 'No check-ins found.'}, status=status.HTTP_404_NOT_FOUND)
+    serializer = CheckInSerializer(checkin)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def recommendation_view(request):
+    checkin = DailyCheckIn.objects.filter(user=request.user).order_by('-date').first()
+    if checkin is None:
+        return Response(
+            {'detail': 'No check-in data found. Please submit a check-in first.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    score = checkin.score
+
+    if score >= 65:
+        capacity_tier = 'High'
+        tasks = Task.objects.filter(user=request.user)
+    elif score >= 40:
+        capacity_tier = 'Medium'
+        tasks = Task.objects.filter(user=request.user, quadrant__in=['UI', 'UNI'])
+    else:
+        capacity_tier = 'Low'
+        tasks = Task.objects.filter(user=request.user, quadrant__in=['UNI', 'NUNI'])
+
+    suggested_film = (
+        Film.objects.filter(user=request.user, genre='comedy')
+        .order_by('-rating')
+        .first()
+    )
+    suggested_book = (
+        Book.objects.filter(user=request.user, mood_tag='light')
+        .first()
+    )
+
+        return Response({
+        'capacity_tier': capacity_tier,
+        'score': score,
+        'tasks': TaskSerializer(tasks, many=True).data,
+        'suggested_film': FilmSerializer(suggested_film).data if suggested_film else None,
+        'suggested_book': BookSerializer(suggested_book).data if suggested_book else None,
+    })
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def task_stats_view(request):
+    tasks = Task.objects.filter(user=request.user)
+    total = tasks.count()
+    completed = tasks.filter(is_done=True).count()         
+    completion_rate = round((completed / total * 100), 2) if total > 0 else 0.0
+
+    quadrant_counts = {
+        'UI':   tasks.filter(quadrant='UI').count(),
+        'UNI':  tasks.filter(quadrant='UNI').count(),
+        'NUI':  tasks.filter(quadrant='NUI').count(),
+        'NUNI': tasks.filter(quadrant='NUNI').count(),
+    }
+
+    return Response({
+        'total_tasks': total,
+        'completed_tasks': completed,
+        'completion_rate_percent': completion_rate,
+        'tasks_per_quadrant': quadrant_counts,
+    })
+
+    
+        
+
+
+
+
+
+
+
+
+
+
+
+
