@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.exceptions import ValidationError
-from .models import Task, DailyCheckIn
+from .models import Task, DailyCheckIn, Film, Book
 
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -54,3 +54,15 @@ class CheckInSerializer(serializers.ModelSerializer):
         model = DailyCheckIn
         fields = ['id', 'sleep_hours', 'mood', 'food_quality', 'energy_level', 'score', 'date', 'notes']
         read_only_fields = ['score', 'date']
+
+class FilmSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Film
+        fields = ['id', 'title', 'genre', 'status', 'rating', 'added_at']
+        read_only_fields = ['added_at']
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ['id', 'title', 'mood_tag', 'status', 'added_at']
+        read_only_fields = ['added_at']
