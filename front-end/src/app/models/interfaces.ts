@@ -18,8 +18,10 @@ export interface Task {
 }
 
 export interface Film {
+  
   id?: number;
   title: string;
+  director: string | null;
   genre: 'comedy' | 'drama' | 'thriller' | 'documentary' | 'scifi';
   status: 'want_to_watch' | 'watching' | 'watched';
   rating: number | null;
@@ -29,6 +31,8 @@ export interface Film {
 export interface Book {
   id?: number;
   title: string;
+  author: string;
+  year: number | null;
   mood_tag: 'light' | 'deep' | 'educational' | 'fiction';
   status: 'want_to_read' | 'reading' | 'finished';
   added_at?: string;
