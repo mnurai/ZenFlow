@@ -1,0 +1,111 @@
+<div class="page">
+  <div class="page-header-row">
+    <div>
+      <h1>Today's recommendation</h1>
+      @if (rec) {
+        <p class="subtitle">Score {{ rec.score }} · {{ rec.capacity_tier }} capacity · based on your check-in</p>
+      } @else {
+        <p class="subtitle">Based on your latest check-in</p>
+      }
+    </div>
+    @if (rec) {
+      <span class="tier-badge" [ngClass]="tierClass">{{ rec.capacity_tier }} capacity day</span>
+    }
+  </div>
+
+  @if (loading) {
+    <p class="loading">Loading recommendation…</p>
+  }
+
+  @if (error) {
+    <div class="error-msg">{{ error }}</div>
+  }
+
+  @if (rec) {
+    @if (rec.capacity_tier === 'Low') {
+      <div class="alert-box low">
+        <p><strong>You only slept a few hours. Take it easy today.</strong></p>
+        <p>Heavy tasks are hidden. We surfaced a few quick wins — and if you'd rather rest, we picked something from your lists.</p>
+      </div>
+    }
+
+    @if (rec.capacity_tier === 'Medium') {
+      <div class="alert-box medium">
+        <p><strong>Medium energy today.</strong></p>
+        <p>Only urgent tasks are shown. Delegate or skip the rest.</p>
+      </div>
+    }
+
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title">
+          @if (rec.capacity_tier === 'High') {
+            All tasks — shown via score ≥ 65
+          } @else if (rec.capacity_tier === 'Medium') {
+            Manageable tasks — shown via score ≥ 40
+          } @else {
+            Manageable tasks — shown via score < 40
+          }
+        </p>
+
+        @if (rec.tasks.length === 0) {
+          <p class="empty">No tasks available.</p>
+        }
+
+        @for (task of rec.tasks; track task.id) {
+          <div class="task-row" [class.done]="task.is_done">
+            <input type="checkbox" [checked]="task.is_done" disabled />
+            <span class="dot" [ngClass]="dotClass(task.quadrant)"></span>
+            <span class="task-title">{{ task.title }}</span>
+          </div>
+        }
+
+        @if (rec.capacity_tier !== 'High') {
+          <div class="hidden-note">
+            Urgent+Important and Not Urgent+Important tasks are hidden. Sleep well tonight and they'll return tomorrow.
+          </div>
+        }
+      </div>
+
+      <div class="card">
+        <p class="card-title">
+          @if (rec.capacity_tier === 'High') { 
+            Today's picks 
+          } @else { 
+            Or give yourself a break — shown via score < 40
+          }
+        </p>
+
+        @if (rec.suggested_film) {
+          <div class="media-item">
+            <div class="media-icon">🎬</div>
+            <div>
+              <p class="media-title">{{ rec.suggested_film.title }}</p>
+              <p class="media-sub">{{ rec.suggested_film.genre | titlecase }} · from your watchlist</p>
+            </div>
+          </div>
+        }
+
+        @if (rec.suggested_book) {
+          <div class="media-item">
+            <div class="media-icon">📚</div>
+            <div>
+              <p class="media-title">{{ rec.suggested_book.title }}</p>
+              <p class="media-sub">{{ rec.suggested_book.mood_tag | titlecase }} fiction · from your booklist</p>
+            </div>
+          </div>
+        }
+
+        @if (!rec.suggested_film && !rec.suggested_book) {
+          <p class="empty">Add films and books to your lists to get suggestions.</p>
+        }
+
+        @if (rec.capacity_tier === 'Low') {
+          <div class="rest-note">
+            Rest is productive. A low score today means a better score tomorrow. No guilt required.
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

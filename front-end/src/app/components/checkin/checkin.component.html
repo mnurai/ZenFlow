@@ -1,0 +1,114 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Daily check-in</h1>
+    <p class="subtitle">Tell us how you feel — we'll shape your day</p>
+  </div>
+
+  <div class="two-col">
+    
+    <div class="card">
+      @if (result) {
+        <div class="success-banner">✓ Check-in saved! Your score has been calculated.</div>
+      }
+
+      <div class="form-group">
+        <label>Hours of sleep</label>
+        <div class="slider-row">
+          <input type="range" [(ngModel)]="sleepHours" min="0" max="12" step="0.5" class="slider" />
+          <span class="slider-val">{{ sleepHours }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Food quality (1–5)</label>
+        <div class="slider-row">
+          <input type="range" [(ngModel)]="foodQuality" min="1" max="5" step="1" class="slider" />
+          <span class="slider-val">{{ foodQuality }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Energy level (1–5)</label>
+        <div class="slider-row">
+          <input type="range" [(ngModel)]="energyLevel" min="1" max="5" step="1" class="slider" />
+          <span class="slider-val">{{ energyLevel }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Mood</label>
+        <div class="emoji-row">
+          @for (emoji of moodEmojis; track $index) {
+            <button
+              class="emoji-btn"
+              [class.selected]="mood === $index + 1"
+              (click)="mood = $index + 1">
+              {{ emoji }}
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (error) {
+        <div class="error-msg">{{ error }}</div>
+      }
+
+      <button class="btn-primary" (click)="onSubmit()" [disabled]="loading">
+        {{ loading ? 'Saving...' : 'Calculate my score' }}
+      </button>
+    </div>
+
+    
+    @if (result) {
+      <div class="results-col">
+        <div class="card score-card">
+          <p class="score-label">Your score</p>
+          <div class="score-row">
+            <div class="score-circle" [ngClass]="capacityClass">{{ result.score }}</div>
+            <div class="score-info">
+              <p class="capacity-title">{{ capacityLabel }}</p>
+              <p class="capacity-sub">
+                @if ((result.score ?? 0) >= 65) { All tasks unlocked }
+                @else if ((result.score ?? 0) >= 40) { Urgent tasks only }
+                @else { Light tasks + rest suggestion }
+              </p>
+            </div>
+          </div>
+
+          <div class="breakdown">
+            <div class="breakdown-row">
+              <span>Sleep (40%)</span>
+              <span>{{ sleepHours }}h → {{ sleepPts }} pts</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Mood (30%)</span>
+              <span>{{ mood }}/5 → {{ moodPts }} pts</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Food (15%)</span>
+              <span>{{ foodQuality }}/5 → {{ foodPts }} pts</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Energy (15%)</span>
+              <span>{{ energyLevel }}/5 → {{ energyPts }} pts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tiers-card">
+          <p class="tiers-title">Capacity tiers</p>
+          <div class="tier-row"><span class="tier high">65–100 · High</span><span>All tasks shown</span></div>
+          <div class="tier-row"><span class="tier medium">40–64 · Medium</span><span>Urgent tasks only</span></div>
+          <div class="tier-row"><span class="tier low">0–39 · Low</span><span>Light tasks + rest suggestion</span></div>
+        </div>
+      </div>
+    } @else {
+      <div class="card tiers-card">
+        <p class="tiers-title">Capacity tiers</p>
+        <div class="tier-row"><span class="tier high">65–100 · High</span><span>All tasks shown</span></div>
+        <div class="tier-row"><span class="tier medium">40–64 · Medium</span><span>Urgent tasks only</span></div>
+        <div class="tier-row"><span class="tier low">0–39 · Low</span><span>Light tasks + rest suggestion</span></div>
+      </div>
+    }
+  </div>
+</div>

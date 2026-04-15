@@ -1,0 +1,68 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Watchlist</h1>
+    <p class="subtitle">Your personal film library · tagged by mood</p>
+  </div>
+
+  @if (error) {
+    <div class="error-msg">{{ error }}</div>
+  }
+
+  <div class="two-col">
+    <div class="card">
+      <div class="form-group">
+        <label>Film title</label>
+        <input type="text" [(ngModel)]="newTitle" placeholder="e.g. The Grand Budapest Hotel" class="input" />
+      </div>
+
+      <div class="form-group">
+        <label>Director / Author</label>
+        <input type="text" [(ngModel)]="newDirector" placeholder="e.g. Wes Anderson" class="input" />
+      </div>
+
+      <div class="form-group">
+        <label>Genre / mood</label>
+        <select [(ngModel)]="newGenre" class="input">
+          @for (g of genres; track g) {
+            <option [value]="g">{{ capitalize(g) }}</option>
+          }
+        </select>
+      </div>
+
+      <button class="btn-add" (click)="onAdd()">Add to watchlist</button>
+
+      @if (genreStats.length > 0) {
+        <div class="stats-box">
+          <p class="stats-title">Your stats</p>
+          <div class="stats-row">
+            @for (s of genreStats; track s.genre) {
+              <span class="stat-tag" [ngClass]="'tag-' + s.genre">
+                <strong>{{ s.count }}</strong> {{ capitalize(s.genre) }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="card">
+      <p class="card-title">Your films</p>
+      @if (films.length === 0) {
+        <p class="empty">No films yet. Add your first one!</p>
+      }
+      @for (film of films; track film.id) {
+        <div class="film-row">
+          <div class="film-icon" [ngClass]="'tag-' + film.genre">🎬</div>
+          <div class="film-info">
+            <p class="film-title">{{ film.title }}</p>
+            <p class="film-sub">{{ film.director }}</p>
+            <span class="genre-tag" [ngClass]="'tag-' + film.genre">
+              {{ capitalize(film.genre) }}
+            </span>
+          </div>
+          <button class="btn-delete" (click)="onDelete(film.id!)">Delete</button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

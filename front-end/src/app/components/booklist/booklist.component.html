@@ -1,0 +1,75 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Booklist</h1>
+    <p class="subtitle">Your reading list · tagged by mood</p>
+  </div>
+
+  @if (error) {
+    <div class="error-msg">{{ error }}</div>
+  }
+
+  <div class="two-col">
+    <div class="card">
+      <div class="form-group">
+        <label>Book title</label>
+        <input type="text" [(ngModel)]="newTitle" placeholder="e.g. The Hitchhiker's Guide" class="input" />
+      </div>
+
+      <div class="form-group">
+        <label>Author & Year</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" [(ngModel)]="newAuthor" placeholder="Author" class="input" style="flex: 2;" />
+          <input type="number" [(ngModel)]="newYear" placeholder="Year" class="input" style="flex: 1;" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Mood tag</label>
+        <select [(ngModel)]="newMoodTag" class="input">
+          @for (tag of moodTags; track tag) {
+            <option [value]="tag">{{ capitalize(tag) }}</option>
+          }
+        </select>
+      </div>
+
+      <button class="btn-add" (click)="onAdd()">Add to booklist</button>
+
+      @if (moodStats.length > 0) {
+        <div class="stats-box">
+          <p class="stats-title">Your stats</p>
+          <div class="stats-row">
+            @for (s of moodStats; track s.tag) {
+              <span class="stat-tag" [ngClass]="'tag-' + s.tag">
+                <strong>{{ s.count }}</strong> {{ capitalize(s.tag) }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="card">
+      <p class="card-title">Your books</p>
+      @if (books.length === 0) {
+        <p class="empty">No books yet. Add your first one!</p>
+      }
+      <div class="book-list">
+        @for (book of books; track book.id) {
+          <div class="book-row">
+            <div class="book-icon" [ngClass]="'tag-' + book.mood_tag">📚</div>
+            <div class="book-info">
+              <p class="book-title">{{ book.title }}</p>
+              <p class="book-sub">
+                {{ book.author }} @if(book.year){ · {{ book.year }} }
+              </p>
+              <span class="mood-tag" [ngClass]="'tag-' + book.mood_tag">
+                {{ capitalize(book.mood_tag) }}
+              </span>
+            </div>
+            <button class="btn-delete" (click)="onDelete(book.id!)">Delete</button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

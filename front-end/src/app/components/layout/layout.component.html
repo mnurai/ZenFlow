@@ -1,0 +1,55 @@
+<div class="app-shell">
+  
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <h2 class="brand">ZenFlow</h2>
+
+      <nav class="nav-section">
+        <p class="nav-label">Overview</p>
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+          <span class="dot green"></span> Dashboard
+        </a>
+        <a routerLink="/checkin" routerLinkActive="active" class="nav-item">
+          <span class="dot orange"></span> Daily check-in
+        </a>
+      </nav>
+
+      <nav class="nav-section">
+        <p class="nav-label">Productivity</p>
+        <a routerLink="/tasks" routerLinkActive="active" class="nav-item">
+          <span class="dot red"></span> To-do list
+        </a>
+        <a routerLink="/recommendation" routerLinkActive="active" class="nav-item">
+          <span class="dot blue"></span> Recommendation
+        </a>
+      </nav>
+
+      <nav class="nav-section">
+        <p class="nav-label">My lists</p>
+        <a routerLink="/watchlist" routerLinkActive="active" class="nav-item">
+          <span class="dot indigo"></span> Watchlist
+        </a>
+        <a routerLink="/booklist" routerLinkActive="active" class="nav-item">
+          <span class="dot pink"></span> Booklist
+        </a>
+      </nav>
+    </div>
+
+    
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar">{{ initials }}</div>
+        <div class="user-text">
+          <span class="user-name">{{ username }}</span>
+          <span class="user-email">{{ email }}</span>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="onLogout()">Logout</button>
+    </div>
+  </aside>
+
+  
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>

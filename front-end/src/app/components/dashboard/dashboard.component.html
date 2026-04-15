@@ -1,0 +1,77 @@
+<div class="page">
+  <div class="page-header">
+    <h1>{{ greeting }}, {{ username }}.</h1>
+    <p class="subtitle">{{ formattedDate }} — here's your day</p>
+  </div>
+
+  
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-label">Score today</p>
+      @if (latestCheckin) {
+        <p class="stat-value green">{{ latestCheckin.score }}</p>
+        <span class="capacity-badge" [ngClass]="capacityClass">{{ capacityLabel }}</span>
+      } @else {
+        <p class="stat-value muted">—</p>
+        <span class="capacity-badge">No check-in yet</span>
+      }
+    </div>
+
+    <div class="stat-card">
+      <p class="stat-label">Tasks total</p>
+      <p class="stat-value">{{ stats?.total_tasks ?? '—' }}</p>
+      @if (urgentCount > 0) {
+        <span class="sub-info">{{ urgentCount }} urgent</span>
+      }
+    </div>
+
+    <div class="stat-card">
+      <p class="stat-label">Sleep</p>
+      @if (latestCheckin) {
+        <p class="stat-value">{{ latestCheckin.sleep_hours }}h</p>
+        <span class="sub-info">Mood {{ latestCheckin.mood }}/5</span>
+      } @else {
+        <p class="stat-value muted">—</p>
+      }
+    </div>
+
+    <div class="stat-card">
+      <p class="stat-label">Films to watch</p>
+      <p class="stat-value">{{ filmCount }}</p>
+      <span class="sub-info">{{ bookCount }} books</span>
+    </div>
+  </div>
+
+  
+  <div class="bottom-grid">
+    
+    <div class="card">
+      <p class="card-title">Focus tasks — today</p>
+      @if (tasks.length === 0) {
+        <p class="empty-state">No tasks yet. <a routerLink="/tasks">Add some →</a></p>
+      }
+      @for (task of tasks.slice(0, 5); track task.id) {
+        <div class="task-row" [class.done]="task.is_done">
+          <input type="checkbox" [checked]="task.is_done" (click)="onToggleDone(task)" />
+          <span class="task-dot" [ngClass]="'dot-' + task.quadrant.toLowerCase()"></span>
+          <span class="task-title">{{ task.title }}</span>
+          @if (!task.is_done) {
+            <span class="task-tag" [ngClass]="quadrantClass(task.quadrant)">
+              {{ quadrantLabel(task.quadrant) }}
+            </span>
+          } @else {
+            <span class="done-tag">Done</span>
+          }
+        </div>
+      }
+    </div>
+
+    
+    <div class="card">
+      <p class="card-title">Today's suggestion</p>
+      <a routerLink="/recommendation" class="suggestion-link">
+        Full breakdown on the <span class="green-link">Recommendation page</span> →
+      </a>
+    </div>
+  </div>
+</div>

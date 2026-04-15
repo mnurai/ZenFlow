@@ -1,0 +1,70 @@
+<div class="page">
+  <div class="page-header">
+    <h1>To-do list</h1>
+    <p class="subtitle">Full CRUD · filtered by your daily score</p>
+  </div>
+
+  @if (error) {
+    <div class="error-msg">{{ error }}</div>
+  }
+
+  <div class="two-col">
+    
+    <div class="card">
+      <div class="form-group">
+        <label>Task name</label>
+        <input type="text" [(ngModel)]="newTitle" placeholder="What do you need to do?" class="input" />
+      </div>
+
+      <div class="form-group">
+        <label>Priority quadrant</label>
+        <div class="quadrant-grid">
+          @for (q of quadrants; track q.value) {
+            <button
+              class="quadrant-btn"
+              [class.selected]="newQuadrant === q.value"
+              [ngClass]="newQuadrant === q.value ? 'sel-' + q.value.toLowerCase() : ''"
+              (click)="newQuadrant = q.value">
+              {{ q.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <button class="btn-add" (click)="onAddTask()">Add task</button>
+
+      <div class="legend">
+        <p class="legend-title">Eisenhower legend</p>
+        <div class="legend-item"><span class="dot dot-ui"></span> Urgent+Important <span class="legend-hint">Do first</span></div>
+        <div class="legend-item"><span class="dot dot-uni"></span> Urgent+Not Important <span class="legend-hint">Delegate</span></div>
+        <div class="legend-item"><span class="dot dot-nui"></span> Not Urgent+Important <span class="legend-hint">Schedule</span></div>
+        <div class="legend-item"><span class="dot dot-nuni"></span> Not Urgent+Not Important <span class="legend-hint">Eliminate</span></div>
+      </div>
+    </div>
+
+    
+    <div class="card">
+      <p class="card-title">All tasks</p>
+      @if (tasks.length === 0) {
+        <p class="empty">No tasks yet. Add your first one!</p>
+      }
+      @for (task of tasks; track task.id) {
+        <div class="task-row" [class.done]="task.is_done">
+          <input type="checkbox" [checked]="task.is_done" (click)="onToggleDone(task)" />
+          <span class="dot" [ngClass]="dotClass(task.quadrant)"></span>
+
+          @if (editingId === task.id) {
+            <input type="text" [(ngModel)]="editTitle" class="edit-input" />
+            <button class="btn-save" (click)="saveEdit(task)">Save</button>
+            <button class="btn-cancel" (click)="cancelEdit()">✕</button>
+          } @else {
+            <span class="task-title">{{ task.title }}</span>
+            <span class="qtag" [ngClass]="quadrantClass(task.quadrant)">{{ task.quadrant }}</span>
+            <button class="btn-edit" (click)="startEdit(task)">Edit</button>
+            <button class="btn-delete" (click)="onDelete(task.id!)">Delete</button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

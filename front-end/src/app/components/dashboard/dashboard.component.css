@@ -1,0 +1,91 @@
+.page { max-width: 900px; }
+
+.page-header { margin-bottom: 28px; }
+.page-header h1 { font-size: 2rem; font-weight: 600; color: #1a1a1a; margin: 0 0 4px; }
+.subtitle { color: #777; margin: 0; font-size: 0.95rem; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #ede9e0;
+}
+
+.stat-label { font-size: 0.8rem; color: #888; margin: 0 0 8px; }
+.stat-value { font-size: 2rem; font-weight: 600; color: #1a1a1a; margin: 0 0 6px; }
+.stat-value.green { color: #2a9d63; }
+.stat-value.muted { color: #ccc; }
+.sub-info { font-size: 0.8rem; color: #888; }
+
+.capacity-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: #f0f0f0;
+  color: #555;
+}
+.capacity-badge.high   { background: #dff0e8; color: #1a7a47; }
+.capacity-badge.medium { background: #fff3cd; color: #856404; }
+.capacity-badge.low    { background: #fde8e8; color: #c0392b; }
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid #ede9e0;
+}
+
+.card-title { font-size: 0.85rem; color: #888; margin: 0 0 16px; }
+
+.empty-state { color: #aaa; font-size: 0.9rem; }
+.empty-state a { color: #2a9d63; text-decoration: none; }
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ede6;
+  font-size: 0.9rem;
+}
+.task-row:last-child { border-bottom: none; }
+.task-row.done .task-title { text-decoration: line-through; color: #aaa; }
+
+.task-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-ui   { background: #e05252; }
+.dot-uni  { background: #e8a020; }
+.dot-nui  { background: #4a8fe8; }
+.dot-nuni { background: #bbb; }
+
+.task-title { flex: 1; color: #222; }
+
+.task-tag {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.tag-ui   { background: #fde8e8; color: #c0392b; }
+.tag-uni  { background: #fff3cd; color: #856404; }
+.tag-nui  { background: #e8f0ff; color: #3557a5; }
+.tag-nuni { background: #f0f0f0; color: #666; }
+
+.done-tag { padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; background: #f0f0f0; color: #888; }
+.suggestion-link { text-decoration: none; color: #444; font-size: 0.9rem; }
+.green-link { color: #2a9d63; }
