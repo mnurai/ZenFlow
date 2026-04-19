@@ -59,7 +59,7 @@ class CheckInSerializer(serializers.ModelSerializer):
 class FilmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Film
-        fields = ['id', 'title', 'genre', 'status', 'rating', 'added_at']
+        fields = ['id', 'title', 'director', 'genre', 'status', 'rating', 'added_at']
         read_only_fields = ['added_at']
 
     def validate_rating(self, value):
@@ -76,7 +76,7 @@ class FilmSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ['id', 'title', 'mood_tag', 'status', 'added_at']
+        fields = ['id', 'title', 'author', 'year', 'mood_tag', 'status', 'added_at']
         read_only_fields = ['added_at']
 
     def validate_title(self, value):
