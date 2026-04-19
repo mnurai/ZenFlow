@@ -38,14 +38,15 @@ class LoginSerializer(serializers.Serializer):
         return data
 
 class CheckInSummarySerializer(serializers.Serializer):
-    score = serializers.FloatField(read_only=True)
+    score         = serializers.FloatField(read_only=True)
     capacity_tier = serializers.CharField(read_only=True)
-    sleep_hours = serializers.FloatField(read_only=True)
-    mood = serializers.IntegerField(read_only=True)
-
+    sleep_hours   = serializers.FloatField(read_only=True)
+    mood          = serializers.IntegerField(read_only=True)
+ 
+ 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
+        model  = Task
         fields = ['id', 'title', 'quadrant', 'is_done', 'created_at']
         read_only_fields = ['created_at']
 
