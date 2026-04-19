@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Task Statistics</h1>
+    <p class="subtitle">Overview of your productivity</p>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error-msg">{{ errorMessage }}</div>
+  }
+
+  @if (stats) {
+    @if (stats.total_tasks === 0) {
+      <p class="empty-state">No tasks exist yet.</p>
+    } @else {
+      <div class="stat-grid">
+        <div class="stat-card">
+          <p class="stat-label">Total Tasks</p>
+          <p class="stat-value">{{ stats.total_tasks }}</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Completed Tasks</p>
+          <p class="stat-value green">{{ stats.completed_tasks }}</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Completion Rate</p>
+          <p class="stat-value">{{ stats.completion_rate_percent }}%</p>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <p class="card-title">Quadrant Breakdown</p>
+        <div class="quadrant-list">
+          <div class="quadrant-item tag-ui">
+            Urgent + Important: <strong>{{ stats.tasks_per_quadrant.UI }}</strong>
+          </div>
+          <div class="quadrant-item tag-uni">
+            Urgent + Not Important: <strong>{{ stats.tasks_per_quadrant.UNI }}</strong>
+          </div>
+          <div class="quadrant-item tag-nui">
+            Not Urgent + Important: <strong>{{ stats.tasks_per_quadrant.NUI }}</strong>
+          </div>
+          <div class="quadrant-item tag-nuni">
+            Not Urgent + Not Important: <strong>{{ stats.tasks_per_quadrant.NUNI }}</strong>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,30 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Check-in History</h1>
+    <p class="subtitle">Your past daily check-ins</p>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error-msg">{{ errorMessage }}</div>
+  }
+
+  <div class="history-list">
+    @for (entry of history; track entry.id) {
+      <div class="card history-card">
+        <div class="history-header">
+          <span class="date">{{ entry.date | date:'mediumDate' }}</span>
+          <span class="score green">{{ entry.score }}</span>
+          <span class="capacity-badge" [ngClass]="getCapacityClass(entry.score)">
+            {{ getCapacityLabel(entry.score) }}
+          </span>
+        </div>
+        @if (entry.notes) {
+          <p class="notes">{{ entry.notes }}</p>
+        }
+      </div>
+    }
+    @if (history.length === 0 && !errorMessage) {
+       <p class="empty-state">No check-in history found.</p>
+    }
+  </div>
+</div>

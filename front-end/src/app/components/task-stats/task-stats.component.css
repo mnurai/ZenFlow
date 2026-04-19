@@ -1,0 +1,25 @@
+.mt-4 {
+  margin-top: 2rem;
+}
+.quadrant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.quadrant-item {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border-left: 4px solid transparent;
+}
+/* Ensure these match your global styling for quadrants if any */
+.tag-ui { border-left-color: #dc3545; }
+.tag-uni { border-left-color: #fd7e14; }
+.tag-nui { border-left-color: #0d6efd; }
+.tag-nuni { border-left-color: #6c757d; }
+
+.error-msg {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
