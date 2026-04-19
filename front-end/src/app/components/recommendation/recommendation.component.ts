@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CheckinService } from '../../services/checkin.service';
+import { RecommendationService } from '../../services/recommendation.service';
 import { Recommendation } from '../../models/interfaces';
 
 @Component({
@@ -12,16 +12,16 @@ import { Recommendation } from '../../models/interfaces';
 })
 export class RecommendationComponent implements OnInit {
   rec: Recommendation | null = null;
-  error = '';
+  errorMessage = '';
   loading = true;
 
-  constructor(private checkinService: CheckinService) {}
+  constructor(private recommendationService: RecommendationService) {}
 
   ngOnInit(): void {
-    this.checkinService.getRecommendation().subscribe({
+    this.recommendationService.getRecommendation().subscribe({
       next: r => { this.rec = r; this.loading = false; },
       error: (err) => {
-        this.error = err.status === 404
+        this.errorMessage = err.status === 404
           ? 'No check-in found. Please complete a Daily Check-in first.'
           : 'Failed to load recommendation.';
         this.loading = false;

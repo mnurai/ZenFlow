@@ -17,8 +17,8 @@
     <p class="loading">Loading recommendation…</p>
   }
 
-  @if (error) {
-    <div class="error-msg">{{ error }}</div>
+  @if (errorMessage) {
+    <div class="error-msg">{{ errorMessage }}</div>
   }
 
   @if (rec) {

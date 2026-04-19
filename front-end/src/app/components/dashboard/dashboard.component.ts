@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   latestCheckin: CheckIn | null = null;
   filmCount = 0;
   bookCount = 0;
-  error = '';
+  errorMessage = '';
 
   constructor(
     private taskService: TaskService,
@@ -35,27 +35,27 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.taskService.getTasks().subscribe({
       next: t => this.tasks = t,
-      error: () => {}
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
 
     this.taskService.getStats().subscribe({
       next: s => this.stats = s,
-      error: () => {}
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
 
-    this.checkinService.getLatestCheckin().subscribe({
+    this.checkinService.getLatest().subscribe({
       next: c => this.latestCheckin = c,
-      error: () => {}
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
 
     this.filmService.getFilms().subscribe({
       next: f => this.filmCount = f.length,
-      error: () => {}
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
 
     this.bookService.getBooks().subscribe({
       next: b => this.bookCount = b.length,
-      error: () => {}
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
@@ -113,7 +113,8 @@ export class DashboardComponent implements OnInit {
       next: updated => {
         const i = this.tasks.findIndex(t => t.id === task.id);
         if (i !== -1) this.tasks[i] = updated;
-      }
+      },
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 }

@@ -15,7 +15,7 @@ export class TasksComponent implements OnInit {
   tasks: Task[] = [];
   newTitle = '';
   newQuadrant: Task['quadrant'] = 'UI';
-  error = '';
+  errorMessage = '';
   editingId: number | null = null;
   editTitle = '';
 
@@ -35,7 +35,7 @@ export class TasksComponent implements OnInit {
   loadTasks(): void {
     this.taskService.getTasks().subscribe({
       next: t => this.tasks = t,
-      error: () => this.error = 'Failed to load tasks.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
@@ -43,7 +43,7 @@ export class TasksComponent implements OnInit {
     if (!this.newTitle.trim()) return;
     this.taskService.createTask({ title: this.newTitle.trim(), quadrant: this.newQuadrant, is_done: false }).subscribe({
       next: t => { this.tasks.push(t); this.newTitle = ''; },
-      error: () => this.error = 'Failed to create task.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
@@ -54,14 +54,14 @@ export class TasksComponent implements OnInit {
         const i = this.tasks.findIndex(t => t.id === task.id);
         if (i !== -1) this.tasks[i] = updated;
       },
-      error: () => this.error = 'Failed to update task.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
   onDelete(id: number): void {
     this.taskService.deleteTask(id).subscribe({
       next: () => this.tasks = this.tasks.filter(t => t.id !== id),
-      error: () => this.error = 'Failed to delete task.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
@@ -78,7 +78,7 @@ export class TasksComponent implements OnInit {
         if (i !== -1) this.tasks[i] = updated;
         this.editingId = null;
       },
-      error: () => this.error = 'Failed to update task.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 

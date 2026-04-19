@@ -4,6 +4,10 @@
     <p class="subtitle">{{ formattedDate }} — here's your day</p>
   </div>
 
+  @if (errorMessage) {
+    <div class="error-msg">{{ errorMessage }}</div>
+  }
+
   
   <div class="stat-grid">
     <div class="stat-card">

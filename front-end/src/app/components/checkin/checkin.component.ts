@@ -19,7 +19,7 @@ export class CheckinComponent {
   notes = '';
 
   result: CheckIn | null = null;
-  error = '';
+  errorMessage = '';
   loading = false;
 
   moodEmojis = ['😩', '😕', '😐', '🙂', '😄'];
@@ -27,9 +27,9 @@ export class CheckinComponent {
   constructor(private checkinService: CheckinService) {}
 
   onSubmit(): void {
-    this.error = '';
+    this.errorMessage = '';
     this.loading = true;
-    this.checkinService.createCheckin({
+    this.checkinService.submitCheckIn({
       sleep_hours: this.sleepHours,
       food_quality: this.foodQuality,
       energy_level: this.energyLevel,
@@ -37,7 +37,7 @@ export class CheckinComponent {
       notes: this.notes
     }).subscribe({
       next: res => { this.result = res; this.loading = false; },
-      error: () => { this.error = 'Failed to save check-in. Please try again.'; this.loading = false; }
+      error: () => { this.errorMessage = 'Failed to load. Please try again.'; this.loading = false; }
     });
   }
 

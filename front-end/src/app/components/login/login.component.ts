@@ -14,13 +14,13 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   username = '';
   password = '';
-  error = '';
+  errorMessage = '';
   loading = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   onLogin(): void {
-    this.error = '';
+    this.errorMessage = '';
     this.loading = true;
     this.auth.login({ username: this.username, password: this.password }).subscribe({
       next: () => {
@@ -28,7 +28,7 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       },
       error: () => {
-        this.error = 'Invalid username or password. Please try again.';
+        this.errorMessage = 'Failed to load. Please try again.';
         this.loading = false;
       }
     });

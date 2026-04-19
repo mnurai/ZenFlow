@@ -9,19 +9,15 @@ export class CheckinService {
 
   constructor(private http: HttpClient) {}
 
-  createCheckin(data: Partial<CheckIn>): Observable<CheckIn> {
+  submitCheckIn(data: Partial<CheckIn>): Observable<CheckIn> {
     return this.http.post<CheckIn>(`${this.baseUrl}/checkins/`, data);
   }
 
-  getCheckins(): Observable<CheckIn[]> {
+  getHistory(): Observable<CheckIn[]> {
     return this.http.get<CheckIn[]>(`${this.baseUrl}/checkins/`);
   }
 
-  getLatestCheckin(): Observable<CheckIn> {
+  getLatest(): Observable<CheckIn> {
     return this.http.get<CheckIn>(`${this.baseUrl}/checkins/latest/`);
-  }
-
-  getRecommendation(): Observable<Recommendation> {
-    return this.http.get<Recommendation>(`${this.baseUrl}/recommendation/`);
   }
 }

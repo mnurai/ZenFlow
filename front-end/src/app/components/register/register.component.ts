@@ -15,13 +15,13 @@ export class RegisterComponent {
   username = '';
   email = '';
   password = '';
-  error = '';
+  errorMessage = '';
   loading = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   onRegister(): void {
-    this.error = '';
+    this.errorMessage = '';
     this.loading = true;
     this.auth.register({ username: this.username, email: this.email, password: this.password }).subscribe({
       next: () => {
@@ -29,8 +29,8 @@ export class RegisterComponent {
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        const msg = err.error?.username?.[0] || err.error?.email?.[0] || err.error?.password?.[0] || 'Registration failed.';
-        this.error = msg;
+        const msg = err.error?.username?.[0] || err.error?.email?.[0] || err.error?.password?.[0] || 'Failed to load. Please try again.';
+        this.errorMessage = msg;
         this.loading = false;
       }
     });

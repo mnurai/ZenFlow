@@ -20,7 +20,7 @@ export class BooklistComponent implements OnInit {
   newMoodTag: Book['mood_tag'] = 'light';
   newStatus: Book['status'] = 'want_to_read';
   
-  error = '';
+  errorMessage = '';
   moodTags: Book['mood_tag'][] = ['light', 'educational', 'deep', 'fiction'];
 
   constructor(private bookService: BookService) {}
@@ -28,7 +28,7 @@ export class BooklistComponent implements OnInit {
   ngOnInit(): void {
     this.bookService.getBooks().subscribe({
       next: b => this.books = b,
-      error: () => this.error = 'Failed to load books.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
@@ -48,7 +48,7 @@ export class BooklistComponent implements OnInit {
         this.books.push(b);
         this.resetForm();
       },
-      error: () => this.error = 'Failed to add book.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
 
   }
@@ -64,7 +64,7 @@ export class BooklistComponent implements OnInit {
   onDelete(id: number): void {
     this.bookService.deleteBook(id).subscribe({
       next: () => this.books = this.books.filter(b => b.id !== id),
-      error: () => this.error = 'Failed to delete book.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
 
     });
   }

@@ -20,7 +20,7 @@ export class WatchlistComponent implements OnInit {
   newGenre: Film['genre'] = 'comedy';
   newStatus: Film['status'] = 'want_to_watch';
   
-  error = '';
+  errorMessage = '';
 
 
   genres: Film['genre'][] = ['thriller', 'drama', 'comedy', 'documentary', 'scifi'];
@@ -30,7 +30,7 @@ export class WatchlistComponent implements OnInit {
   ngOnInit(): void {
     this.filmService.getFilms().subscribe({
       next: f => this.films = f,
-      error: () => this.error = 'Failed to load films.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
@@ -50,14 +50,14 @@ export class WatchlistComponent implements OnInit {
         this.newTitle = '';
         this.newDirector = '';
       },
-      error: () => this.error = 'Failed to add film.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 
   onDelete(id: number): void {
     this.filmService.deleteFilm(id).subscribe({
       next: () => this.films = this.films.filter(f => f.id !== id),
-      error: () => this.error = 'Failed to delete film.'
+      error: () => this.errorMessage = 'Failed to load. Please try again.'
     });
   }
 

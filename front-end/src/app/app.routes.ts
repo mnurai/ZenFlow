@@ -35,6 +35,16 @@ export const routes: Routes = [
           import('./components/checkin/checkin.component').then(m => m.CheckinComponent)
       },
       {
+        path: 'checkin/history',
+        loadComponent: () =>
+          import('./components/checkin-history/checkin-history.component').then(m => m.CheckinHistoryComponent)
+      },
+      {
+        path: 'tasks/stats',
+        loadComponent: () =>
+          import('./components/task-stats/task-stats.component').then(m => m.TaskStatsComponent)
+      },
+      {
         path: 'recommendation',
         loadComponent: () =>
           import('./components/recommendation/recommendation.component').then(m => m.RecommendationComponent)

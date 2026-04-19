@@ -18,8 +18,8 @@
       <input type="password" [(ngModel)]="password" placeholder="••••••••" class="input" />
     </div>
 
-    @if (error) {
-      <div class="error-msg">{{ error }}</div>
+    @if (errorMessage) {
+      <div class="error-msg">{{ errorMessage }}</div>
     }
 
     <button class="btn-primary" (click)="onRegister()" [disabled]="loading">
