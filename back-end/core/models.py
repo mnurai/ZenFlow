@@ -18,6 +18,10 @@ class Task(models.Model):
     is_done    = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     objects    = UrgentTaskManager()
+    urgent_tasks = UrgentTaskManager()
+
+    def __str__(self):
+        return f"[{self.quadrant}] {self.title}"
 
 class DailyCheckIn(models.Model):
     MOOD_CHOICES = [(i, i) for i in range(1, 6)]
@@ -29,6 +33,13 @@ class DailyCheckIn(models.Model):
     energy_level = models.IntegerField(choices=MOOD_CHOICES)
     score        = models.FloatField(editable=False)
     notes        = models.TextField(blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'date'], name='unique_checkin_per_day')
+        ]
+        ordering = ['-date']
+
 
     def calculate_score(self):
         sleep_norm  = min(self.sleep_hours / 8, 1.0) * 40
@@ -53,6 +64,7 @@ class Film(models.Model):
     ]
     user     = models.ForeignKey(User, on_delete=models.CASCADE, related_name='films')
     title    = models.CharField(max_length=255)
+    director = models.CharField(max_length=255, blank=True)
     genre    = models.CharField(max_length=50, choices=GENRE_CHOICES)
     status   = models.CharField(max_length=20, choices=STATUS_CHOICES, default='want_to_watch')
     rating   = models.IntegerField(null=True, blank=True)
@@ -70,6 +82,11 @@ class Book(models.Model):
     ]
     user     = models.ForeignKey(User, on_delete=models.CASCADE, related_name='books')
     title    = models.CharField(max_length=255)
+    author   = models.CharField(max_length=255, blank=True)
+    year     = models.IntegerField(null=True, blank=True)
     mood_tag = models.CharField(max_length=50, choices=MOOD_TAG_CHOICES)
     status   = models.CharField(max_length=20, choices=STATUS_CHOICES, default='want_to_read')
     added_at = models.DateTimeField(auto_now_add=True)
+
+   def __str__(self):
+        return self.title
