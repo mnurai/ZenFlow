@@ -27,7 +27,7 @@ def register_view(request):
         return Response({
             'refresh': str(refresh),
             'access':  str(refresh.access_token),
-            'username': user.username,          # FIX #6: возвращаем username при регистрации
+            'username': user.username,          
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
