@@ -40,14 +40,11 @@ out blacklists the refresh token on the server side.
 | `POST` | `/api/token/refresh/` | No | Get a new access token using the refresh token |
 
 ### Dashboard — `/dashboard`
-The main overview page. Shows four summary cards at the top: today's
-Productivity Score, total tasks, last night's sleep and mood, and the
-number of films and books in the user's lists. Below that, the user sees
-their focus tasks for today — filtered to match their current capacity tier.
-Tasks can be marked as done with a single click directly from this page,
-crossing them out instantly. A quick suggestion card on the right shows a
-recommended film (prioritizing highest rated comedies) and a light book
-from the user's own lists.
+The main overview page. Shows today's Productivity Score, the user's focus
+tasks filtered to match their current capacity tier, and a quick suggestion
+card showing a recommended film (prioritizing highest-rated comedies) and a
+light book from the user's own lists. Tasks can be marked as done with a
+single click directly from this page, crossing them out instantly.
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
@@ -105,10 +102,8 @@ only light tasks are shown. Full CRUD operations are supported.
 ### Task Statistics — `/tasks/stats`
 A dedicated analytics page showing the user insights about their
 productivity habits. Displays total tasks created, total completed,
-overall completion rate as a percentage, a breakdown of how many tasks
-belong to each Eisenhower quadrant, and a day-by-day completion chart
-for the current week compared to last week. This page uses aggregated
-Django ORM queries on the backend and a chart component on the frontend.
+overall completion rate as a percentage, and a breakdown of how many
+tasks belong to each Eisenhower quadrant.
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
@@ -201,7 +196,7 @@ content on low-capacity days.
 - Productivity Score engine (sleep 40% + mood 30% + food 15% + energy 15%)
 - Smart to-do list with Eisenhower matrix tagging (Urgent/Important quadrants)
 - One-click mark task as done from the dashboard
-- Task statistics page (completion rate, quadrant breakdown, weekly comparison)
+- Task statistics page (completion rate, quadrant breakdown)
 - Check-in history page with journal notes — view past scores by date
 - Personal film watchlist with status tracking (Want to Watch / Watching / Watched)
 - Star ratings (1–5) on films — used by the recommendation engine
@@ -214,6 +209,6 @@ content on low-capacity days.
 ---
 
 ## Tech Stack
-- **Frontend**: Angular 17 (routing, HttpClient, FormsModule, JWT interceptor)
+- **Frontend**: Angular 17 
 - **Backend**: Django + Django REST Framework
-- **Auth**: JWT
+- **Auth**: JWT via SimpleJWT 
