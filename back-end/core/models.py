@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class UrgentTaskManager(models.Manager):
     def urgent(self):
@@ -17,7 +18,7 @@ class Task(models.Model):
     quadrant   = models.CharField(max_length=10, choices=QUADRANT_CHOICES)
     is_done    = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    objects    = UrgentTaskManager()
+    objects    = models.Manager()
     urgent_tasks = UrgentTaskManager()
 
     def __str__(self):
@@ -27,7 +28,7 @@ class DailyCheckIn(models.Model):
     MOOD_CHOICES = [(i, i) for i in range(1, 6)]
     user         = models.ForeignKey(User, on_delete=models.CASCADE, related_name='checkins')
     date         = models.DateField(auto_now_add=True)
-    sleep_hours  = models.FloatField()
+    sleep_hours  = models.FloatField(validators=[MinValueValidator(0.0)])
     mood         = models.IntegerField(choices=MOOD_CHOICES)
     food_quality = models.IntegerField(choices=MOOD_CHOICES)
     energy_level = models.IntegerField(choices=MOOD_CHOICES)
@@ -67,8 +68,15 @@ class Film(models.Model):
     director = models.CharField(max_length=255, blank=True)
     genre    = models.CharField(max_length=50, choices=GENRE_CHOICES)
     status   = models.CharField(max_length=20, choices=STATUS_CHOICES, default='want_to_watch')
-    rating   = models.IntegerField(null=True, blank=True)
+    rating   = models.IntegerField(
+        null=True, 
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
     added_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 class Book(models.Model):
     MOOD_TAG_CHOICES = [

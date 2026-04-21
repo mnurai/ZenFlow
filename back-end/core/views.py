@@ -27,7 +27,7 @@ def register_view(request):
         return Response({
             'refresh': str(refresh),
             'access':  str(refresh.access_token),
-            'username': user.username,          # FIX #6: возвращаем username при регистрации
+            'username': user.username,          
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -278,7 +278,7 @@ def recommendation_view(request):
         tasks = Task.objects.filter(user=request.user, quadrant__in=['UI', 'UNI'])
     else:
         capacity_tier = 'Low'
-        tasks = Task.objects.filter(user=request.user, quadrant__in=['UNI', 'NUNI'])
+        tasks = Task.objects.filter(user=request.user, quadrant__in=['UI', 'NUI'])
 
     suggested_film = (
         Film.objects.filter(user=request.user, genre='comedy')
