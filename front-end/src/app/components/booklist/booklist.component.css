@@ -154,6 +154,29 @@
   font-weight: 600;
 }
 
+.book-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.status-select {
+  padding: 3px 8px;
+  border: 1.5px solid #e0ddd6;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  background: #faf9f6;
+  cursor: pointer;
+  color: #555;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #2a9d63;
+}
+
 .btn-delete {
   padding: 8px 16px;
   border: 1.5px solid #e05252;
@@ -168,9 +191,32 @@
   background: #fde8e8;
 }
 
-.tag-light { background-color: #e8f0ff !important; color: #3557a5 !important; }
-.tag-educational { background-color: #fff3cd !important; color: #856404 !important; }
-.tag-comedy { background-color: #dff0e8 !important; color: #1a7a47 !important; }
-.tag-thriller { background-color: #fde8e8 !important; color: #c0392b !important; }
-.tag-drama { background-color: #f3e8ff !important; color: #6b21a8 !important; }
-.tag-documentary { background-color: #f0f0f0 !important; color: #666 !important; }
+.tag-light {
+  background-color: #e8f0ff !important;
+  color: #3557a5 !important;
+}
+
+.tag-educational {
+  background-color: #fff3cd !important;
+  color: #856404 !important;
+}
+
+.tag-comedy {
+  background-color: #dff0e8 !important;
+  color: #1a7a47 !important;
+}
+
+.tag-thriller {
+  background-color: #fde8e8 !important;
+  color: #c0392b !important;
+}
+
+.tag-drama {
+  background-color: #f3e8ff !important;
+  color: #6b21a8 !important;
+}
+
+.tag-documentary {
+  background-color: #f0f0f0 !important;
+  color: #666 !important;
+}
