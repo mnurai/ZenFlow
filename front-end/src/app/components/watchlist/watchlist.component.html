@@ -4,8 +4,8 @@
     <p class="subtitle">Your personal film library · tagged by mood</p>
   </div>
 
-  @if (errorMessage) {
-    <div class="error-msg">{{ errorMessage }}</div>
+  @if (error) {
+    <div class="error-msg">{{ error }}</div>
   }
 
   <div class="two-col">
@@ -26,6 +26,15 @@
           @for (g of genres; track g) {
             <option [value]="g">{{ capitalize(g) }}</option>
           }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="newStatus" class="input">
+          <option value="want_to_watch">Want to Watch</option>
+          <option value="watching">Watching</option>
+          <option value="watched">Watched</option>
         </select>
       </div>
 
@@ -56,9 +65,24 @@
           <div class="film-info">
             <p class="film-title">{{ film.title }}</p>
             <p class="film-sub">{{ film.director }}</p>
-            <span class="genre-tag" [ngClass]="'tag-' + film.genre">
-              {{ capitalize(film.genre) }}
-            </span>
+            <div class="film-meta">
+              <span class="genre-tag" [ngClass]="'tag-' + film.genre">
+                {{ capitalize(film.genre) }}
+              </span>
+              <select class="status-select" [ngModel]="film.status" (ngModelChange)="onChangeStatus(film, $event)">
+                <option value="want_to_watch">Want to Watch</option>
+                <option value="watching">Watching</option>
+                <option value="watched">Watched</option>
+              </select>
+            </div>
+            <div class="star-rating">
+              @for (star of [1,2,3,4,5]; track star) {
+                <span class="star" [class.filled]="film.rating !== null && star <= film.rating" (click)="onRate(film, star)">★</span>
+              }
+              @if (film.rating) {
+                <span class="rating-label">{{ film.rating }}/5</span>
+              }
+            </div>
           </div>
           <button class="btn-delete" (click)="onDelete(film.id!)">Delete</button>
         </div>
