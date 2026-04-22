@@ -21,7 +21,18 @@ export class WatchlistComponent implements OnInit {
 
   error = '';
 
-  genres: Film['genre'][] = ['thriller', 'drama', 'comedy', 'documentary', 'scifi'];
+  genres: { value: Film['genre']; label: string }[] = [
+    { value: 'comedy', label: 'Comedy' },
+    { value: 'drama', label: 'Drama' },
+    { value: 'thriller', label: 'Thriller' },
+    { value: 'action', label: 'Action' },
+    { value: 'horror', label: 'Horror' },
+    { value: 'romance', label: 'Romance' },
+    { value: 'scifi', label: 'Sci-Fi' },
+    { value: 'documentary', label: 'Documentary' },
+    { value: 'animation', label: 'Animation' },
+    { value: 'other', label: 'Other' },
+  ];
 
   constructor(private filmService: FilmService) {}
 
