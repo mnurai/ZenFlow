@@ -1,4 +1,3 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookService } from '../../services/book.service';
@@ -17,23 +16,11 @@ export class BooklistComponent implements OnInit {
   newTitle = '';
   newAuthor = '';
   newYear: number | null = null;
-  newGenre: Book['genre'] = 'other';
-  newMoodTag: Book['mood_tag'] = 'light';
+  newGenre: NonNullable<Book['genre']> = 'other';
   newStatus: Book['status'] = 'want_to_read';
 
   error = '';
-  moodTags: Book['mood_tag'][] = ['light', 'educational', 'deep', 'fiction'];
-  genres: { value: Book['genre']; label: string }[] = [
-    { value: 'fantasy', label: 'Fantasy' },
-    { value: 'sci_fi', label: 'Sci-Fi' },
-    { value: 'romance', label: 'Romance' },
-    { value: 'thriller', label: 'Thriller' },
-    { value: 'mystery', label: 'Mystery' },
-    { value: 'biography', label: 'Biography' },
-    { value: 'self_help', label: 'Self-Help' },
-    { value: 'history', label: 'History' },
-    { value: 'other', label: 'Other' },
-  ];
+  genres: NonNullable<Book['genre']>[] = ['fantasy', 'sci_fi', 'romance', 'thriller', 'mystery', 'biography', 'self_help', 'history', 'other'];
 
   constructor(private bookService: BookService) {}
 
@@ -51,8 +38,8 @@ export class BooklistComponent implements OnInit {
       title: this.newTitle.trim(),
       author: this.newAuthor.trim(),
       year: this.newYear,
+      mood_tag: 'light',
       genre: this.newGenre,
-      mood_tag: this.newMoodTag,
       status: this.newStatus
     }).subscribe({
       next: b => {
@@ -87,19 +74,23 @@ export class BooklistComponent implements OnInit {
     this.newAuthor = '';
     this.newYear = null;
     this.newGenre = 'other';
-    this.newMoodTag = 'light';
     this.newStatus = 'want_to_read';
   }
 
-  get moodStats(): { tag: string; count: number }[] {
-    const counts: Record<string, number> = {};
-    this.books.forEach(b => {
-      counts[b.mood_tag] = (counts[b.mood_tag] || 0) + 1;
-    });
-    return Object.entries(counts).map(([tag, count]) => ({ tag, count }));
+  genreLabel(g: string): string {
+    const map: Record<string, string> = {
+      fantasy: 'Fantasy', sci_fi: 'Sci-Fi', romance: 'Romance',
+      thriller: 'Thriller', mystery: 'Mystery', biography: 'Biography',
+      self_help: 'Self-Help', history: 'History', other: 'Other'
+    };
+    return map[g] || g;
   }
 
-  capitalize(s: string): string {
-    return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+  get genreStats(): { genre: string; count: number }[] {
+    const counts: Record<string, number> = {};
+    this.books.forEach(b => {
+      if (b.genre) counts[b.genre] = (counts[b.genre] || 0) + 1;
+    });
+    return Object.entries(counts).map(([genre, count]) => ({ genre, count }));
   }
 }
