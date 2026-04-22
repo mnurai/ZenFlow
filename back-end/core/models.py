@@ -55,11 +55,11 @@ class DailyCheckIn(models.Model):
 
 class Film(models.Model):
     GENRE_CHOICES = [
-        ('comedy', 'Comedy'), ('drama', 'Drama'),
-        ('thriller', 'Thriller'), ('action', 'Action'),
-        ('horror', 'Horror'), ('romance', 'Romance'),
-        ('scifi', 'Sci-Fi'), ('documentary', 'Documentary'),
-        ('animation', 'Animation'), ('other', 'Other'),
+    ('comedy', 'Comedy'), ('drama', 'Drama'),
+    ('thriller', 'Thriller'), ('documentary', 'Documentary'),
+    ('scifi', 'Sci-Fi'), ('action', 'Action'),
+    ('horror', 'Horror'), ('romance', 'Romance'),
+    ('animation', 'Animation'), ('other', 'Other'),
     ]
     STATUS_CHOICES = [
         ('want_to_watch', 'Want to Watch'),
