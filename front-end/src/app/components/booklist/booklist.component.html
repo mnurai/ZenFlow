@@ -1,7 +1,6 @@
-<div class="page">
   <div class="page-header">
     <h1>Booklist</h1>
-    <p class="subtitle">Your reading list · tagged by mood</p>
+    <p class="subtitle">Your personal reading list · tagged by genre</p>
   </div>
 
   @if (error) {
@@ -26,25 +25,10 @@
       <div class="form-group">
         <label>Genre</label>
         <select [(ngModel)]="newGenre" class="input">
-          @for (g of genres; track g.value) {
-            <option [value]="g.value">{{ g.label }}</option>
+          @for (g of genres; track g) {
+            <option [value]="g">{{ genreLabel(g) }}</option>
           }
         </select>
-      </div>
-
-      <div class="form-group">
-        <label>Mood tag</label>
-        <div class="mood-grid">
-          @for (tag of moodTags; track tag) {
-            <button
-              class="mood-btn"
-              [class.selected]="newMoodTag === tag"
-              [ngClass]="newMoodTag === tag ? 'sel-' + tag.toLowerCase() : ''"
-              (click)="newMoodTag = tag">
-              {{ capitalize(tag) }}
-            </button>
-          }
-        </div>
       </div>
 
       <div class="form-group">
@@ -58,13 +42,13 @@
 
       <button class="btn-add" (click)="onAdd()">Add to booklist</button>
 
-      @if (moodStats.length > 0) {
+      @if (genreStats.length > 0) {
         <div class="stats-box">
           <p class="stats-title">Your stats</p>
           <div class="stats-row">
-            @for (s of moodStats; track s.tag) {
-              <span class="stat-tag" [ngClass]="'tag-' + s.tag">
-                <strong>{{ s.count }}</strong> {{ capitalize(s.tag) }}
+            @for (s of genreStats; track s.genre) {
+              <span class="stat-tag" [ngClass]="'genre-' + s.genre">
+                <strong>{{ s.count }}</strong> {{ genreLabel(s.genre) }}
               </span>
             }
           </div>
@@ -77,31 +61,29 @@
       @if (books.length === 0) {
         <p class="empty">No books yet. Add your first one!</p>
       }
-      <div class="book-list">
-        @for (book of books; track book.id) {
-          <div class="book-row">
-            <div class="book-icon" [ngClass]="'tag-' + book.mood_tag">📚</div>
-            <div class="book-info">
-              <p class="book-title">{{ book.title }}</p>
-              <p class="book-sub">
-                {{ book.author }} @if(book.year){ · {{ book.year }} }
-              </p>
-              <div class="book-meta">
-                <span class="genre-tag" [ngClass]="'genre-' + book.genre">{{ capitalize(book.genre) }}</span>
-                <span class="mood-tag" [ngClass]="'tag-' + book.mood_tag">
-                  {{ capitalize(book.mood_tag) }}
-                </span>
-                <select class="status-select" [ngModel]="book.status" (ngModelChange)="onChangeStatus(book, $event)">
-                  <option value="want_to_read">Want to Read</option>
-                  <option value="reading">Reading</option>
-                  <option value="finished">Finished</option>
-                </select>
-              </div>
+      @for (book of books; track book.id) {
+        <div class="book-row">
+          <div class="book-icon" [ngClass]="book.genre ? 'genre-' + book.genre : 'genre-other'">📚</div>
+          <div class="book-info">
+            <p class="book-title">{{ book.title }}</p>
+            <p class="book-sub">
+              {{ book.author }}
+              @if (book.year) { · {{ book.year }} }
+            </p>
+            <div class="book-meta">
+              <span class="genre-tag" [ngClass]="'genre-' + (book.genre || 'other')">
+                {{ genreLabel(book.genre || 'other') }}
+              </span>
+              <select class="status-select" [ngModel]="book.status" (ngModelChange)="onChangeStatus(book, $event)">
+                <option value="want_to_read">Want to Read</option>
+                <option value="reading">Reading</option>
+                <option value="finished">Finished</option>
+              </select>
             </div>
-            <button class="btn-delete" (click)="onDelete(book.id!)">Delete</button>
           </div>
-        }
-      </div>
+          <button class="btn-delete" (click)="onDelete(book.id!)">Delete</button>
+        </div>
+      }
     </div>
   </div>
 </div>
