@@ -1,12 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RecommendationService } from '../../services/recommendation.service';
-import { Recommendation } from '../../models/interfaces';
+import { TaskService } from '../../services/task.service';
+import { Recommendation, Task } from '../../models/interfaces';
 
 @Component({
   selector: 'app-recommendation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './recommendation.component.html',
   styleUrls: ['./recommendation.component.css']
 })
@@ -17,6 +19,7 @@ export class RecommendationComponent implements OnInit {
 
   constructor(
     private recommendationService: RecommendationService,
+    private taskService: TaskService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -53,5 +56,21 @@ export class RecommendationComponent implements OnInit {
   dotClass(q: string): string {
     const map: Record<string, string> = { UI: 'dot-ui', UNI: 'dot-uni', NUI: 'dot-nui', NUNI: 'dot-nuni' };
     return map[q] || '';
+  }
+
+  onToggleTask(task: Task): void {
+    if (!task.id) return;
+    this.taskService.patchTask(task.id, { is_done: !task.is_done }).subscribe({
+      next: updated => {
+        const index = this.rec?.tasks.findIndex(t => t.id === task.id);
+        if (index !== -1 && this.rec) {
+          this.rec.tasks[index!] = updated;
+          this.cdr.detectChanges();
+        }
+      },
+      error: () => {
+        this.errorMessage = 'Failed to update task.';
+      }
+    });
   }
 }

@@ -54,7 +54,7 @@
 
         @for (task of rec.tasks; track task.id) {
           <div class="task-row" [class.done]="task.is_done">
-            <input type="checkbox" [checked]="task.is_done" disabled />
+            <input type="checkbox" [checked]="task.is_done" (change)="onToggleTask(task)" />
             <span class="dot" [ngClass]="dotClass(task.quadrant)"></span>
             <span class="task-title">{{ task.title }}</span>
           </div>
