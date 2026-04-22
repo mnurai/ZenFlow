@@ -258,3 +258,33 @@
   color: #888;
   margin-left: 6px;
 }
+
+.tag-action {
+  background-color: #fff7ed !important;
+  color: #9a3412 !important;
+}
+
+.tag-horror {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+}
+
+.tag-romance {
+  background-color: #fce7f3 !important;
+  color: #9d174d !important;
+}
+
+.tag-animation {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.tag-other {
+  background-color: #f0f0f0 !important;
+  color: #666 !important;
+}
+
+.tag-scifi {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
