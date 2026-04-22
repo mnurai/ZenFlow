@@ -23,8 +23,8 @@
       <div class="form-group">
         <label>Genre / mood</label>
         <select [(ngModel)]="newGenre" class="input">
-          @for (g of genres; track g) {
-            <option [value]="g">{{ capitalize(g) }}</option>
+          @for (g of genres; track g.value) {
+            <option [value]="g.value">{{ g.label }}</option>
           }
         </select>
       </div>
