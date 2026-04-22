@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CheckinService } from '../../services/checkin.service';
@@ -24,11 +24,14 @@ export class CheckinComponent {
 
   moodEmojis = ['😩', '😕', '😐', '🙂', '😄'];
 
-  constructor(private checkinService: CheckinService) {}
+  constructor(private checkinService: CheckinService, private cdr: ChangeDetectorRef) {}
 
   onSubmit(): void {
     this.errorMessage = '';
     this.loading = true;
+    this.result = null;
+    this.cdr.detectChanges();
+
     this.checkinService.submitCheckIn({
       sleep_hours: this.sleepHours,
       food_quality: this.foodQuality,
@@ -36,8 +39,16 @@ export class CheckinComponent {
       mood: this.mood,
       notes: this.notes
     }).subscribe({
-      next: res => { this.result = res; this.loading = false; },
-      error: () => { this.errorMessage = 'Failed to load. Please try again.'; this.loading = false; }
+      next: res => {
+        this.result = res;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMessage = 'Failed to save check-in. Please try again.';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
