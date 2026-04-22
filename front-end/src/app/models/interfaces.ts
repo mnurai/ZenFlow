@@ -1,4 +1,3 @@
-export interface User {
   username: string;
   email: string;
   password: string;
@@ -35,8 +34,8 @@ export interface Book {
   title: string;
   author: string;
   year: number | null;
-  genre: 'fantasy' | 'sci_fi' | 'romance' | 'thriller' | 'mystery' | 'biography' | 'self_help' | 'history' | 'other';
   mood_tag: 'light' | 'deep' | 'educational' | 'fiction';
+  genre?: 'fantasy' | 'sci_fi' | 'romance' | 'thriller' | 'mystery' | 'biography' | 'self_help' | 'history' | 'other';
   status: 'want_to_read' | 'reading' | 'finished';
   added_at?: string;
 }
