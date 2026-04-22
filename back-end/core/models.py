@@ -88,10 +88,22 @@ class Book(models.Model):
         ('reading', 'Reading'),
         ('finished', 'Finished'),
     ]
+    GENRE_CHOICES = [
+        ('fantasy', 'Fantasy'),
+        ('sci_fi', 'Sci-Fi'),
+        ('romance', 'Romance'),
+        ('thriller', 'Thriller'),
+        ('mystery', 'Mystery'),
+        ('biography', 'Biography'),
+        ('self_help', 'Self-Help'),
+        ('history', 'History'),
+        ('other', 'Other'),
+    ]
     user     = models.ForeignKey(User, on_delete=models.CASCADE, related_name='books')
     title    = models.CharField(max_length=255)
     author   = models.CharField(max_length=255, blank=True)
     year     = models.IntegerField(null=True, blank=True)
+    genre    = models.CharField(max_length=50, choices=GENRE_CHOICES, default='other')
     mood_tag = models.CharField(max_length=50, choices=MOOD_TAG_CHOICES)
     status   = models.CharField(max_length=20, choices=STATUS_CHOICES, default='want_to_read')
     added_at = models.DateTimeField(auto_now_add=True)
