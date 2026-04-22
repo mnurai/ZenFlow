@@ -1,6 +1,4 @@
-.page {
   max-width: 900px;
-  margin: 0 auto;
   padding: 20px;
 }
 
@@ -12,12 +10,22 @@
   font-size: 2rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin: 0;
+  margin: 0 0 4px;
 }
 
 .subtitle {
   color: #777;
   font-size: 0.95rem;
+  margin: 0;
+}
+
+.error-msg {
+  background: #fde8e8;
+  color: #c0392b;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
 }
 
 .two-col {
@@ -37,7 +45,7 @@
 .card-title {
   font-size: 0.85rem;
   color: #888;
-  margin-bottom: 16px;
+  margin: 0 0 16px;
 }
 
 .form-group {
@@ -65,7 +73,6 @@
 .input:focus {
   outline: none;
   border-color: #2a9d63;
-  background: #fff;
 }
 
 .btn-add {
@@ -86,9 +93,14 @@
 
 .stats-box {
   background: #faf9f6;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 14px 16px;
-  border: 1px solid #f0ede6;
+}
+
+.stats-title {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0 0 10px;
 }
 
 .stats-row {
@@ -106,11 +118,16 @@
   gap: 4px;
 }
 
+.empty {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
 .book-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 0;
+  padding: 14px 0;
   border-bottom: 1px solid #f0ede6;
 }
 
@@ -121,12 +138,13 @@
 .book-icon {
   width: 48px;
   height: 48px;
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
   flex-shrink: 0;
+  background: #f0f0f0;
 }
 
 .book-info {
@@ -134,24 +152,24 @@
 }
 
 .book-title {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #1a1a1a;
   margin: 0 0 2px;
 }
 
 .book-sub {
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 6px;
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0 0 6px;
 }
 
-.mood-tag {
+.genre-tag {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .book-meta {
@@ -178,133 +196,26 @@
 }
 
 .btn-delete {
-  padding: 8px 16px;
+  padding: 7px 16px;
   border: 1.5px solid #e05252;
   border-radius: 8px;
   background: #fff;
   color: #e05252;
   cursor: pointer;
   font-size: 0.82rem;
+  flex-shrink: 0;
 }
 
 .btn-delete:hover {
   background: #fde8e8;
 }
 
-.tag-light {
-  background-color: #e8f0ff !important;
-  color: #3557a5 !important;
-}
-
-.tag-educational {
-  background-color: #fff3cd !important;
-  color: #856404 !important;
-}
-
-.tag-comedy {
-  background-color: #dff0e8 !important;
-  color: #1a7a47 !important;
-}
-
-.tag-thriller {
-  background-color: #fde8e8 !important;
-  color: #c0392b !important;
-}
-
-.tag-drama {
-  background-color: #f3e8ff !important;
-  color: #6b21a8 !important;
-}
-
-.tag-documentary {
-  background-color: #f0f0f0 !important;
-  color: #666 !important;
-}
-
-/* Mood tag colors */
-.tag-deep {
-  background-color: #ffe8f0 !important;
-  color: #a82a5a !important;
-}
-
-.tag-fiction {
-  background-color: #e8f5ff !important;
-  color: #0052a3 !important;
-}
-
-/* Mood tag button grid */
-.mood-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.mood-btn {
-  padding: 10px 14px;
-  border: 1.5px solid #e0ddd6;
-  border-radius: 10px;
-  background: #faf9f6;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s;
-  color: #444;
-}
-
-.mood-btn:hover {
-  border-color: #ccc;
-  background: #f5f3ee;
-}
-
-.mood-btn.selected {
-  border-color: #333;
-  background: #333;
-  color: #fff;
-  font-weight: 600;
-}
-
-.mood-btn.sel-light {
-  background-color: #3557a5 !important;
-  border-color: #3557a5 !important;
-  color: #fff !important;
-}
-
-.mood-btn.sel-educational {
-  background-color: #856404 !important;
-  border-color: #856404 !important;
-  color: #fff !important;
-}
-
-.mood-btn.sel-deep {
-  background-color: #a82a5a !important;
-  border-color: #a82a5a !important;
-  color: #fff !important;
-}
-
-.mood-btn.sel-fiction {
-  background-color: #0052a3 !important;
-  border-color: #0052a3 !important;
-  color: #fff !important;
-}
-
-.empty {
-  text-align: center;
-  color: #999;
-  padding: 24px 0;
-  font-size: 0.95rem;
-}
-
-.error-msg {
-  background: #fef2f2;
-  color: #dc2626;
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  margin-bottom: 16px;
-}
-
-.book-list {
-  display: flex;
-  flex-direction: column;
-}
+.genre-fantasy,   .book-icon.genre-fantasy   { background-color: #f3e8ff !important; color: #6b21a8 !important; }
+.genre-sci_fi,    .book-icon.genre-sci_fi    { background-color: #e8f0ff !important; color: #3557a5 !important; }
+.genre-romance,   .book-icon.genre-romance   { background-color: #ffe4f0 !important; color: #c0256e !important; }
+.genre-thriller,  .book-icon.genre-thriller  { background-color: #fde8e8 !important; color: #c0392b !important; }
+.genre-mystery,   .book-icon.genre-mystery   { background-color: #fef3c7 !important; color: #92400e !important; }
+.genre-biography, .book-icon.genre-biography { background-color: #fff3cd !important; color: #856404 !important; }
+.genre-self_help, .book-icon.genre-self_help { background-color: #dff0e8 !important; color: #1a7a47 !important; }
+.genre-history,   .book-icon.genre-history   { background-color: #f0ede6 !important; color: #7a5c1a !important; }
+.genre-other,     .book-icon.genre-other     { background-color: #f0f0f0 !important; color: #666 !important; }
