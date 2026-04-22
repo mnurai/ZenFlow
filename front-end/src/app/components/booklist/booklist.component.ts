@@ -13,14 +13,14 @@ import { Book } from '../../models/interfaces';
 })
 export class BooklistComponent implements OnInit {
   books: Book[] = [];
-  
+
   newTitle = '';
   newAuthor = '';
   newYear: number | null = null;
   newMoodTag: Book['mood_tag'] = 'light';
   newStatus: Book['status'] = 'want_to_read';
-  
-  errorMessage = '';
+
+  error = '';
   moodTags: Book['mood_tag'][] = ['light', 'educational', 'deep', 'fiction'];
 
   constructor(private bookService: BookService) {}
@@ -28,7 +28,7 @@ export class BooklistComponent implements OnInit {
   ngOnInit(): void {
     this.bookService.getBooks().subscribe({
       next: b => this.books = b,
-      error: () => this.errorMessage = 'Failed to load. Please try again.'
+      error: () => this.error = 'Failed to load books.'
     });
   }
 
@@ -38,19 +38,35 @@ export class BooklistComponent implements OnInit {
     this.bookService.createBook({
       title: this.newTitle.trim(),
       author: this.newAuthor.trim(),
-      
       year: this.newYear,
       mood_tag: this.newMoodTag,
       status: this.newStatus
-
     }).subscribe({
       next: b => {
         this.books.push(b);
         this.resetForm();
       },
-      error: () => this.errorMessage = 'Failed to load. Please try again.'
+      error: () => this.error = 'Failed to add book.'
     });
+  }
 
+  onChangeStatus(book: Book, status: Book['status']): void {
+    if (!book.id) return;
+
+    this.bookService.patchBook(book.id, { status }).subscribe({
+      next: updated => {
+        const i = this.books.findIndex(b => b.id === book.id);
+        if (i !== -1) this.books[i] = updated;
+      },
+      error: () => this.error = 'Failed to update status.'
+    });
+  }
+
+  onDelete(id: number): void {
+    this.bookService.deleteBook(id).subscribe({
+      next: () => this.books = this.books.filter(b => b.id !== id),
+      error: () => this.error = 'Failed to delete book.'
+    });
   }
 
   private resetForm(): void {
@@ -58,15 +74,7 @@ export class BooklistComponent implements OnInit {
     this.newAuthor = '';
     this.newYear = null;
     this.newMoodTag = 'light';
-
-  }
-
-  onDelete(id: number): void {
-    this.bookService.deleteBook(id).subscribe({
-      next: () => this.books = this.books.filter(b => b.id !== id),
-      error: () => this.errorMessage = 'Failed to load. Please try again.'
-
-    });
+    this.newStatus = 'want_to_read';
   }
 
   get moodStats(): { tag: string; count: number }[] {
