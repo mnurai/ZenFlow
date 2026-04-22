@@ -76,7 +76,7 @@ class FilmSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'year', 'mood_tag', 'status', 'added_at']
+        fields = ['id', 'title', 'author', 'year', 'genre', 'mood_tag', 'status', 'added_at']
         read_only_fields = ['added_at']
 
     def validate_title(self, value):
