@@ -4,8 +4,8 @@
     <p class="subtitle">Your reading list · tagged by mood</p>
   </div>
 
-  @if (errorMessage) {
-    <div class="error-msg">{{ errorMessage }}</div>
+  @if (error) {
+    <div class="error-msg">{{ error }}</div>
   }
 
   <div class="two-col">
@@ -29,6 +29,15 @@
           @for (tag of moodTags; track tag) {
             <option [value]="tag">{{ capitalize(tag) }}</option>
           }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="newStatus" class="input">
+          <option value="want_to_read">Want to Read</option>
+          <option value="reading">Reading</option>
+          <option value="finished">Finished</option>
         </select>
       </div>
 
@@ -62,9 +71,16 @@
               <p class="book-sub">
                 {{ book.author }} @if(book.year){ · {{ book.year }} }
               </p>
-              <span class="mood-tag" [ngClass]="'tag-' + book.mood_tag">
-                {{ capitalize(book.mood_tag) }}
-              </span>
+              <div class="book-meta">
+                <span class="mood-tag" [ngClass]="'tag-' + book.mood_tag">
+                  {{ capitalize(book.mood_tag) }}
+                </span>
+                <select class="status-select" [ngModel]="book.status" (ngModelChange)="onChangeStatus(book, $event)">
+                  <option value="want_to_read">Want to Read</option>
+                  <option value="reading">Reading</option>
+                  <option value="finished">Finished</option>
+                </select>
+              </div>
             </div>
             <button class="btn-delete" (click)="onDelete(book.id!)">Delete</button>
           </div>

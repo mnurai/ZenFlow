@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RecommendationService } from '../../services/recommendation.service';
 import { Recommendation } from '../../models/interfaces';
@@ -15,16 +15,24 @@ export class RecommendationComponent implements OnInit {
   errorMessage = '';
   loading = true;
 
-  constructor(private recommendationService: RecommendationService) {}
+  constructor(
+    private recommendationService: RecommendationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.recommendationService.getRecommendation().subscribe({
-      next: r => { this.rec = r; this.loading = false; },
+      next: r => {
+        this.rec = r;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
       error: (err) => {
         this.errorMessage = err.status === 404
           ? 'No check-in found. Please complete a Daily Check-in first.'
           : 'Failed to load recommendation.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

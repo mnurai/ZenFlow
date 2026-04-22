@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckinService } from '../../services/checkin.service';
 import { CheckIn } from '../../models/interfaces';
@@ -14,12 +14,21 @@ export class CheckinHistoryComponent implements OnInit {
   history: CheckIn[] = [];
   errorMessage: string = '';
 
-  constructor(private checkinService: CheckinService) {}
+  constructor(
+    private checkinService: CheckinService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.checkinService.getHistory().subscribe({
-      next: data => this.history = data,
-      error: () => this.errorMessage = 'Failed to load. Please try again.'
+      next: data => {
+        this.history = data;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMessage = 'Failed to load. Please try again.';
+        this.cdr.detectChanges();
+      }
     });
   }
 

@@ -71,7 +71,9 @@
 }
 .dot.green   { background: #2a9d63; }
 .dot.orange  { background: #e8a020; }
+.dot.purple  { background: #9b59b6; }
 .dot.red     { background: #e05252; }
+.dot.yellow  { background: #f0ed29; }
 .dot.blue    { background: #4a8fe8; }
 .dot.indigo  { background: #6366f1; }
 .dot.pink    { background: #ec4899; }
