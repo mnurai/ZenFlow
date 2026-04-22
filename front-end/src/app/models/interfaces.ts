@@ -24,7 +24,7 @@ export interface Film {
   id?: number;
   title: string;
   director: string | null;
-  genre: 'comedy' | 'drama' | 'thriller' | 'documentary' | 'scifi';
+  genre: 'comedy' | 'drama' | 'thriller' | 'action' | 'horror' | 'romance' | 'scifi' | 'documentary' | 'animation' | 'other';
   status: 'want_to_watch' | 'watching' | 'watched';
   rating: number | null;
   added_at?: string;
@@ -35,6 +35,7 @@ export interface Book {
   title: string;
   author: string;
   year: number | null;
+  genre: 'fantasy' | 'sci_fi' | 'romance' | 'thriller' | 'mystery' | 'biography' | 'self_help' | 'history' | 'other';
   mood_tag: 'light' | 'deep' | 'educational' | 'fiction';
   status: 'want_to_read' | 'reading' | 'finished';
   added_at?: string;
