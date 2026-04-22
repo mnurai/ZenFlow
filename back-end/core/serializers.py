@@ -1,8 +1,8 @@
-from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.exceptions import ValidationError
 from .models import Task, DailyCheckIn, Film, Book
+
 
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -22,6 +22,7 @@ class RegisterSerializer(serializers.Serializer):
         )
         return user
 
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -29,32 +30,33 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         username = data.get('username')
         password = data.get('password')
-
         user = authenticate(username=username, password=password)
         if not user:
             raise ValidationError("Invalid credentials")
-
         data['user'] = user
         return data
+
 
 class CheckInSummarySerializer(serializers.Serializer):
     score         = serializers.FloatField(read_only=True)
     capacity_tier = serializers.CharField(read_only=True)
     sleep_hours   = serializers.FloatField(read_only=True)
     mood          = serializers.IntegerField(read_only=True)
- 
- 
+
+
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
-        model  = Task
+        model = Task
         fields = ['id', 'title', 'quadrant', 'is_done', 'created_at']
         read_only_fields = ['created_at']
+
 
 class CheckInSerializer(serializers.ModelSerializer):
     class Meta:
         model = DailyCheckIn
         fields = ['id', 'sleep_hours', 'mood', 'food_quality', 'energy_level', 'score', 'date', 'notes']
         read_only_fields = ['score', 'date']
+
 
 class FilmSerializer(serializers.ModelSerializer):
     class Meta:
@@ -76,7 +78,7 @@ class FilmSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'year', 'genre', 'mood_tag', 'status', 'added_at']
+        fields = ['id', 'title', 'author', 'year', 'mood_tag', 'genre', 'status', 'added_at']
         read_only_fields = ['added_at']
 
     def validate_title(self, value):
