@@ -17,11 +17,23 @@ export class BooklistComponent implements OnInit {
   newTitle = '';
   newAuthor = '';
   newYear: number | null = null;
+  newGenre: Book['genre'] = 'other';
   newMoodTag: Book['mood_tag'] = 'light';
   newStatus: Book['status'] = 'want_to_read';
 
   error = '';
   moodTags: Book['mood_tag'][] = ['light', 'educational', 'deep', 'fiction'];
+  genres: { value: Book['genre']; label: string }[] = [
+    { value: 'fantasy', label: 'Fantasy' },
+    { value: 'sci_fi', label: 'Sci-Fi' },
+    { value: 'romance', label: 'Romance' },
+    { value: 'thriller', label: 'Thriller' },
+    { value: 'mystery', label: 'Mystery' },
+    { value: 'biography', label: 'Biography' },
+    { value: 'self_help', label: 'Self-Help' },
+    { value: 'history', label: 'History' },
+    { value: 'other', label: 'Other' },
+  ];
 
   constructor(private bookService: BookService) {}
 
@@ -39,6 +51,7 @@ export class BooklistComponent implements OnInit {
       title: this.newTitle.trim(),
       author: this.newAuthor.trim(),
       year: this.newYear,
+      genre: this.newGenre,
       mood_tag: this.newMoodTag,
       status: this.newStatus
     }).subscribe({
@@ -73,6 +86,7 @@ export class BooklistComponent implements OnInit {
     this.newTitle = '';
     this.newAuthor = '';
     this.newYear = null;
+    this.newGenre = 'other';
     this.newMoodTag = 'light';
     this.newStatus = 'want_to_read';
   }
