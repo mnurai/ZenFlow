@@ -25,11 +25,17 @@
 
       <div class="form-group">
         <label>Mood tag</label>
-        <select [(ngModel)]="newMoodTag" class="input">
+        <div class="mood-grid">
           @for (tag of moodTags; track tag) {
-            <option [value]="tag">{{ capitalize(tag) }}</option>
+            <button
+              class="mood-btn"
+              [class.selected]="newMoodTag === tag"
+              [ngClass]="newMoodTag === tag ? 'sel-' + tag.toLowerCase() : ''"
+              (click)="newMoodTag = tag">
+              {{ capitalize(tag) }}
+            </button>
           }
-        </select>
+        </div>
       </div>
 
       <div class="form-group">

@@ -220,3 +220,91 @@
   background-color: #f0f0f0 !important;
   color: #666 !important;
 }
+
+/* Mood tag colors */
+.tag-deep {
+  background-color: #ffe8f0 !important;
+  color: #a82a5a !important;
+}
+
+.tag-fiction {
+  background-color: #e8f5ff !important;
+  color: #0052a3 !important;
+}
+
+/* Mood tag button grid */
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mood-btn {
+  padding: 10px 14px;
+  border: 1.5px solid #e0ddd6;
+  border-radius: 10px;
+  background: #faf9f6;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  color: #444;
+}
+
+.mood-btn:hover {
+  border-color: #ccc;
+  background: #f5f3ee;
+}
+
+.mood-btn.selected {
+  border-color: #333;
+  background: #333;
+  color: #fff;
+  font-weight: 600;
+}
+
+.mood-btn.sel-light {
+  background-color: #3557a5 !important;
+  border-color: #3557a5 !important;
+  color: #fff !important;
+}
+
+.mood-btn.sel-educational {
+  background-color: #856404 !important;
+  border-color: #856404 !important;
+  color: #fff !important;
+}
+
+.mood-btn.sel-deep {
+  background-color: #a82a5a !important;
+  border-color: #a82a5a !important;
+  color: #fff !important;
+}
+
+.mood-btn.sel-fiction {
+  background-color: #0052a3 !important;
+  border-color: #0052a3 !important;
+  color: #fff !important;
+}
+
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 24px 0;
+  font-size: 0.95rem;
+}
+
+.error-msg {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.book-list {
+  display: flex;
+  flex-direction: column;
+}
