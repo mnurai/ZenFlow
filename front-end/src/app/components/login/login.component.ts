@@ -24,7 +24,6 @@ export class LoginComponent {
     this.loading = true;
     this.auth.login({ username: this.username, password: this.password }).subscribe({
       next: () => {
-        localStorage.setItem('username', this.username);
         this.router.navigate(['/dashboard']);
       },
       error: () => {

@@ -50,6 +50,10 @@ export class AuthService {
   private saveTokens(res: AuthResponse): void {
     localStorage.setItem('access_token', res.access);
     localStorage.setItem('refresh_token', res.refresh);
+    localStorage.setItem('username', res.username);
+    if (res.email) {
+      localStorage.setItem('email', res.email);
+    }
   }
 
   private clearTokens(): void {

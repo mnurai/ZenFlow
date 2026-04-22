@@ -25,7 +25,6 @@ export class RegisterComponent {
     this.loading = true;
     this.auth.register({ username: this.username, email: this.email, password: this.password }).subscribe({
       next: () => {
-        localStorage.setItem('username', this.username);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {

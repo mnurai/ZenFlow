@@ -27,7 +27,8 @@ def register_view(request):
         return Response({
             'refresh': str(refresh),
             'access':  str(refresh.access_token),
-            'username': user.username,          
+            'username': user.username,
+            'email': user.email,
         }, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -43,6 +44,7 @@ def login_view(request):
             'access':   str(refresh.access_token),
             'refresh':  str(refresh),
             'username': user.username,
+            'email': user.email,
         }, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -291,18 +293,9 @@ def recommendation_view(request):
     )
 
     
-    checkin_summary = CheckInSummarySerializer({
-        'score':         score,
-        'capacity_tier': capacity_tier,
-        'sleep_hours':   checkin.sleep_hours,
-        'mood':          checkin.mood,
-    }).data
-
-    
     return Response({
         'capacity_tier':  capacity_tier,
         'score':          score,
-        'checkin_summary': checkin_summary,
         'tasks':          TaskSerializer(tasks, many=True).data,
         'suggested_film': FilmSerializer(suggested_film).data if suggested_film else None,
         'suggested_book': BookSerializer(suggested_book).data if suggested_book else None,

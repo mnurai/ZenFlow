@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LayoutComponent {
   username = localStorage.getItem('username') || 'User';
-  email = localStorage.getItem('email') || '';
+  email = localStorage.getItem('email') || 'user@example.com';
 
   constructor(private auth: AuthService, private router: Router) {}
 
