@@ -47,14 +47,13 @@ export class AuthService {
     return !!this.getAccessToken();
   }
 
-  private saveTokens(res: AuthResponse): void {
-    localStorage.setItem('access_token', res.access);
-    localStorage.setItem('refresh_token', res.refresh);
-    localStorage.setItem('username', res.username);
-    if (res.email) {
-      localStorage.setItem('email', res.email);
-    }
-  }
+ 
+typescriptprivate saveTokens(res: AuthResponse): void {
+  localStorage.setItem('access_token', res.access);
+  localStorage.setItem('refresh_token', res.refresh);
+  if (res.username) localStorage.setItem('username', res.username);
+  if (res.email) localStorage.setItem('email', res.email);
+}
 
   private clearTokens(): void {
     localStorage.removeItem('access_token');
