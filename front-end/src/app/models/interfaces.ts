@@ -1,3 +1,4 @@
+export interface User {
   username: string;
   email: string;
   password: string;
@@ -6,7 +7,7 @@
 export interface AuthResponse {
   access: string;
   refresh: string;
-  username: string;
+  username?: string;
   email?: string;
 }
 
@@ -19,11 +20,10 @@ export interface Task {
 }
 
 export interface Film {
-  
   id?: number;
   title: string;
   director: string | null;
-  genre: 'comedy' | 'drama' | 'thriller' | 'action' | 'horror' | 'romance' | 'scifi' | 'documentary' | 'animation' | 'other';
+  genre: 'comedy' | 'drama' | 'thriller' | 'documentary' | 'scifi' | 'action' | 'horror' | 'romance' | 'animation' | 'other';
   status: 'want_to_watch' | 'watching' | 'watched';
   rating: number | null;
   added_at?: string;
