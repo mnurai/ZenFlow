@@ -24,6 +24,15 @@
       </div>
 
       <div class="form-group">
+        <label>Genre</label>
+        <select [(ngModel)]="newGenre" class="input">
+          @for (g of genres; track g.value) {
+            <option [value]="g.value">{{ g.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
         <label>Mood tag</label>
         <div class="mood-grid">
           @for (tag of moodTags; track tag) {
@@ -78,6 +87,7 @@
                 {{ book.author }} @if(book.year){ · {{ book.year }} }
               </p>
               <div class="book-meta">
+                <span class="genre-tag" [ngClass]="'genre-' + book.genre">{{ capitalize(book.genre) }}</span>
                 <span class="mood-tag" [ngClass]="'tag-' + book.mood_tag">
                   {{ capitalize(book.mood_tag) }}
                 </span>
